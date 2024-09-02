@@ -15,7 +15,7 @@ const AddUser = () => {
 
 	const router = useRouter()
 	const [state, formAction]= useFormState(addUser,initialState)
-
+	
 	  useEffect(()=>{
 		if(state.isOk){
 			toast.success("user added")

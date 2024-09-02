@@ -1,7 +1,6 @@
 "use server"
 import { prisma } from "@/util/prisma";
 import { revalidatePath } from "next/cache";
-import { NextResponse } from "next/server";
 
 export async function getUser() {
     const users = await prisma.user.findMany();
@@ -20,14 +19,24 @@ await prisma.user.create({
         email: email
     }
 })
-console.log('added')
-        return {message: "", isOk: true}
+revalidatePath('/')
+        return {message: "user added", isOk: true}
+        
 }catch(e){
+
     return {message: "failed", isOk: false}
 }
-revalidatePath('/')
 
+}
 
+export const deleteUser = async (id: string) =>{
+    
+   
 
-
+    await prisma.user.delete({
+        where: {
+            id: id
+        }
+    })
+    revalidatePath('/')
 }

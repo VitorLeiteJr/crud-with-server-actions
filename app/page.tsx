@@ -1,12 +1,12 @@
 
 import Link from "next/link";
 import { getUser } from "./_actions/ServerActions";
-import { User } from "@prisma/client";
+import Button from "./_components/Button";
 
 
 const Home = async () => {
     
-        const list = await getUser()
+    const list = await getUser()   
 
   return (
     <div className="items-center flex justify-center min-h-screen">
@@ -38,9 +38,8 @@ const Home = async () => {
                     </div>
                     
                     <Link className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white"
-                     href={`/edit-user/`}>Edit</Link>
-                      <Link className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white"
-                     href={`/edit-user`}>Delete</Link>                     
+                     href={`/edit-user/${user.id}`}>Edit</Link>
+                      <Button id={user.id}/>                     
                      
                 </div>
             </li>
