@@ -2,9 +2,21 @@
 import { prisma } from "@/util/prisma";
 import { revalidatePath } from "next/cache";
 
-export async function getUser() {
+export async function getUsers() {
+    
     const users = await prisma.user.findMany();
-    return users;
+    return users;  
+
+  }
+
+  export async function getUser(id: string) {
+       
+        const users= await prisma.user.findUnique({
+            where: {
+                id: id
+            }
+        })
+        return users;
   }
 
 
@@ -29,6 +41,26 @@ revalidatePath('/')
 
 }
 
+export const editUser = async (prevState: any, formData: FormData)=>{
+
+    const name = formData.get("name") as string
+    const email = formData.get("email") as string
+    const id  = formData.get("id") as string
+
+    await prisma.user.update({
+        where: {
+            id:id
+        },
+        data: {
+            name: name,
+            email: email
+        }
+    })
+
+
+}
+
+
 export const deleteUser = async (id: string) =>{
     
    
@@ -40,3 +72,4 @@ export const deleteUser = async (id: string) =>{
     })
     revalidatePath('/')
 }
+

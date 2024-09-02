@@ -1,5 +1,6 @@
-"use client"
+import { editUser, getUser } from '@/app/_actions/ServerActions'
 import React from 'react'
+import FormEdit from './form-edit'
 
 interface id {
   params:{
@@ -7,10 +8,22 @@ interface id {
   }
 }
 
-const EditUser = ({params}: id) => {
+const EditUser = async ({params}: id) => {
+
+  const user = await getUser(params.id)
+
   return (
-    <div>{params.id}</div>
-  )
+    <div className="flex justify-center items-center min-h-screen">
+    <div className="max-w-[720px] mx-auto">
+        
+      <FormEdit
+      id={params.id}
+      name={user.name}
+      email={user.email}
+      />
+    </div>
+</div>
+         )
 }
 
 export default EditUser

@@ -1,12 +1,11 @@
 
 import Link from "next/link";
-import { getUser } from "./_actions/ServerActions";
+import { getUsers } from "./_actions/ServerActions";
 import Button from "./_components/Button";
-
 
 const Home = async () => {
     
-    const list = await getUser()   
+    const list = await getUsers() 
 
   return (
     <div className="items-center flex justify-center min-h-screen">
@@ -21,7 +20,9 @@ const Home = async () => {
    <div className="flow-root">
         <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
             
-         {list.map((user)=>(          
+         {        
+         list.map((user)=>(   
+            
          
             <li key={user.id} className="pt-3 pb-0 sm:pt-4">
                 <div className="flex items-center space-x-4">
