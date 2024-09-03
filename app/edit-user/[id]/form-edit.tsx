@@ -1,7 +1,10 @@
 "use client"
 
 import { editUser } from "@/app/_actions/ServerActions"
+import { useRouter } from "next/navigation"
+import { useEffect } from "react"
 import { useFormState } from "react-dom"
+import { toast } from "react-toastify"
 
 interface editProps{    
     id: string,
@@ -13,9 +16,18 @@ const FormEdit = ({id,name,email}: editProps) => {
 
     const initialState = {
         message: "",
+        isOk: false,
     }
 
     const [state, formAction] = useFormState(editUser,initialState)
+    const router = useRouter()
+
+    useEffect(()=>{
+     if(state.isOk){
+        toast.success("the user was edited with success")
+        router.push("/")
+     }  
+    })
 
   return (
     <form action={formAction}>
@@ -34,7 +46,7 @@ const FormEdit = ({id,name,email}: editProps) => {
                         name="name" defaultValue={name} />
                     <label
                         className="before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none !overflow-visible truncate text-[11px] font-normal leading-tight text-gray-500 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[4.1] peer-placeholder-shown:text-blue-gray-500 peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-gray-900 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:!border-gray-900 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:!border-gray-900 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500">
-                          Name
+                          Isabella
                     </label>
                 </div>
                 <div className="relative h-11 w-full min-w-[200px]">
@@ -47,6 +59,9 @@ const FormEdit = ({id,name,email}: editProps) => {
                     </label>
                 </div>
                
+            </div>
+            <div className="p-6 pt-0">
+               <p> {state.message}</p>
             </div>
             <div className="p-6 pt-0">
                 <button

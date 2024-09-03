@@ -47,6 +47,7 @@ export const editUser = async (prevState: any, formData: FormData)=>{
     const email = formData.get("email") as string
     const id  = formData.get("id") as string
 
+    try{
     await prisma.user.update({
         where: {
             id:id
@@ -56,6 +57,14 @@ export const editUser = async (prevState: any, formData: FormData)=>{
             email: email
         }
     })
+
+    revalidatePath('/')
+    return {message: "the user was edited", isOk: true}
+    }catch(e){
+    
+        return {message:"something is wrong", isOk: false}
+
+    }
 
 
 }
